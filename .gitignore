@@ -1,0 +1,28 @@
+.gradle/
+.settings/
+.vscode/
+dist/
+
+bin
+build
+out
+.idea
+### OSX ###
+.DS_Store
+
+.classpath
+.project
+charts
+requirements.lock
+var
+logs
+
+*.iml
+*.ipr
+*.iws
+
+### TMP ###
+*.log
+__tmp__/*.tmp
+__tmp__/*.sql
+__pycache__

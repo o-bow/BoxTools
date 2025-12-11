@@ -1,0 +1,31 @@
+[project]
+name = "boxtools"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "I314837",email = "olivier.bourlon@sap.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "gitdb (==4.0.12)",
+    "gitpython (==3.1.45)",
+    "line-profiler (==5.0.0)",
+    "numpy (==2.3.5)",
+    "pandas (==2.3.3)",
+    "pyperclip (==1.11.0)",
+    "python-dateutil (==2.9.0.post0)",
+    "pytz (==2025.2)",
+    "six (==1.17.0)",
+    "smmap (==5.0.2)",
+    "sqlparse (==0.5.4)",
+    "tzdata (==2025.2)"
+]
+
+[tool.poetry]
+packages = [{include = "boxtools", from = "src"}]
+#packages = [{include = "lib", from = "pythonBox"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
