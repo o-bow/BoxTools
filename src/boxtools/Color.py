@@ -68,6 +68,7 @@ class ANSICompatible:
     END = '\x1b[0m'
 
     # If foreground is False that means color effect is on Background
+    @staticmethod
     def color(color_no, foreground=True):  # 0 - 255
         fb_g = 38  # Effect on foreground
         if not foreground:
@@ -98,6 +99,7 @@ class GColor:  # Gnome supported
     END = "\x1b[0m"
 
     # If Foreground is False that means color effect on Background
+    @staticmethod
     def rgb(r, g, b, foreground=True):  # R: 0-255  ,  G: 0-255  ,  B: 0-255
         fb_g = 38  # Effect on foreground
         if not foreground:

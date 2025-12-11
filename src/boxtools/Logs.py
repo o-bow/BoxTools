@@ -31,9 +31,8 @@ class LogDisplay:
         if log_level <= self.app_log_level:
             from os import get_terminal_size
             t_size = get_terminal_size().columns
-            c_size = 0
             # calculate min-widths on all columns
-            column_widths: [int] = []
+            column_widths: list[int] = []
             for idx, row in enumerate(value):
                 if isinstance(row, list):
                     for v in range(0, len(row)):

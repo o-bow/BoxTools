@@ -13,6 +13,7 @@ def get_key(dic, val):
     for key, value in dic.items():
         if val == value:
             return key
+    return None
 
 
 def show_log(value, level: int = LogLevel.SILENT):

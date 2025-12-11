@@ -20,6 +20,17 @@ def find(name, path):
     for root, dirs, files in os.walk(path):
         if name in files:
             return os.path.join(root, name)
+    return None
+
+def get_caller_path():
+    import sys
+    try:
+        return sys.modules['__main__'].__file__
+    except KeyError:
+        print('libray not loaded from script')
+    except AttributeError:
+        print('script not loaded from file')
+    return None
 
 
 # Recursive
@@ -141,8 +152,8 @@ def get_box_config_ini_file_path(file_name: str, box_path: PurePath) -> PurePath
     return box_path.joinpath('resources', 'config', file_name)
 
 
-def write_configuration(conf_file_name, config):
-    set_properties(get_box_config_ini_file_path(conf_file_name), config)
+def write_configuration(conf_file_name, config, box_path: PurePath):
+    set_properties(get_box_config_ini_file_path(file_name=conf_file_name, box_path=box_path), config)
 
 
 def get_zshrc_path() -> PurePath:

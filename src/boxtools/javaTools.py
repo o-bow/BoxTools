@@ -69,7 +69,7 @@ def get_java_class_package_value(file_path: str, package_str_to_match: str = 'pa
                 package_value = str_line[start_index:semicolon_index].replace('package', '').strip()
                 do_exit = True
         entity_file.close()
-        return package_value
+    return package_value
 
 
 def add_getter(indent_count: int, property_name: str, property_class: str, to_list: list, add_override: bool = True,
@@ -136,20 +136,20 @@ def add_constructor(indent_count: int, property_name: str, to_list: list,
     to_list.append(new_line())
 
 
-def create_sub_folder(folder_path: PurePath, path_to_package: [], folder_name):
+def create_sub_folder(folder_path: PurePath, path_to_package: list, folder_name):
     mk_dir(folder_path, folder_name)
     path_to_package.append(folder_name)
     return folder_path.joinpath(folder_name)
 
 
-def create_hierarchy(packages, folder_path, path_to_package: []):
+def create_hierarchy(packages, folder_path, path_to_package: list):
     for package in packages:
         # create <package_name> dir if not exist
         folder_path = create_sub_folder(folder_path, path_to_package, package)
     return folder_path
 
 
-def extract_class_path(file_path: str or None, root_element: str = 'com'):
+def extract_class_path(file_path: str, root_element: str = 'com'):
     if file_path is None:
         return None
     class_path: str = file_path.replace(get_path_separator(), '.')

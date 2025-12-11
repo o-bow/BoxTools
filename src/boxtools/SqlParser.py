@@ -48,4 +48,5 @@ class SqlParser:
         pyperclip.copy(output)
         if show_result:
             self.logger.show_command_log(' - Formatted SQL copied to clipboard')
+        return output
 

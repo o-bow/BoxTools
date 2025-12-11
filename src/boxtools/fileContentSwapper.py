@@ -106,14 +106,14 @@ def t2s(path_to_convert: str):
     system(cmd)
 
 
-def dt2s(path_to_convert: str, user_ini_file: str = 'user.ini'):
+def dt2s(path_to_convert: str, box_path: PurePath, user_ini_file: str = 'user.ini'):
     logger: LogDisplay = LogDisplay().get_log_display()
     validate_tool('find')
     validate_tool('expand')
     validate_tool('sponge')
     extensions: list = ['*.java']
     try:
-        user_settings: Settings | None = Settings(get_box_config_ini_file_path(user_ini_file))
+        user_settings: Settings | None = Settings(get_box_config_ini_file_path(file_name=user_ini_file, box_path=box_path))
         if user_settings is None:
             print(f'Invalid user ini file: [{user_ini_file}]. Defaulting to *.java extension only')
         else:

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from boxtools.Logs import LogDisplay
+from boxtools.Logs import LogDisplay, LogLevel
 from boxtools.dto.HelpEntry import HelpEntry
 from boxtools.stringUtils import new_line
 
 
 class Help:
-    def __init__(self):
-        self.logger: LogDisplay = LogDisplay().get_log_display()
+    def __init__(self, app_log_level: int = LogLevel.SILENT):
+        self.logger: LogDisplay = LogDisplay(app_log_level=app_log_level).get_log_display()
         self.entries : list[HelpEntry] = []
         self.groups : list[str] = []
 

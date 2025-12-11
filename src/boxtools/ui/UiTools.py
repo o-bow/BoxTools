@@ -79,7 +79,7 @@ class PackLayout:
 
 
 def strip_colours(text, log_level):
-    log: LogDisplay = LogDisplay().get_log_display()
+    log: LogDisplay = LogDisplay(app_log_level=log_level).get_log_display()
     color_vars = vars(ShellColor)
     for color_name, color in color_vars.items():
         if not color_name.startswith('__'):
