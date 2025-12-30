@@ -60,9 +60,16 @@ def insert_before_eof(file_path: str, lines_from_bottom: int, lines_to_insert: l
 
 
 def write_to_file(file_path, content, mode: str = "w"):
-    file_content = open(file_path, mode)
+    file_content = open(file_path, mode, encoding="utf-8")
     file_content.writelines(content)
     file_content.close()
+
+
+def append_to_file(file_path, content):
+    if file_path is not None and file_exists(file_path):
+        file_content = open(file_path, 'a', encoding="utf-8")
+        file_content.writelines('\n' + content)
+        file_content.close()
 
 
 def cleanup_file(file_path: str):
@@ -132,6 +139,11 @@ def file_exists(file_path: PurePath):
 def create_if_not_exists(file_path: PurePath):
     if not file_exists(file_path):
         open(file_path, 'w').close()
+
+
+def get_src_path() -> PurePath:
+    # file > module > src > root - index start at 0
+    return Path(__file__).parents[1].absolute()
 
 
 def get_box_root_path() -> PurePath:

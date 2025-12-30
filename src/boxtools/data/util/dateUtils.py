@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 
 """
@@ -48,3 +48,21 @@ def add_years(date, nb_years):
 def today_minus_n_months(nb_minus):
     return datetime.now() - relativedelta(months=12)
 
+
+def get_date_str(date: datetime = datetime.today()) -> str:
+    return date.strftime('%Y-%m-%d')
+
+
+def get_hour_str(date: datetime = datetime.today()) -> str:
+    return date.strftime('%H:%M:%S')
+
+
+def get_timestamp_str(date: datetime = datetime.today()) -> str:
+    return str(date.timestamp())
+
+
+def get_date_from_ts(ts) -> datetime:
+    return datetime.fromtimestamp(ts / 1000.0, tz=timezone.utc)
+
+def get_date_no_hour_ts(date: datetime = datetime.today()):
+    return date.replace(hour=0, minute=0, second=0, microsecond=0).timestamp()

@@ -6,7 +6,8 @@ authors = [
     {name = "obow",email = "olivier.bourlon.pro@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+# TinyDB requires <4.0
+requires-python = ">=3.13, <4.0"
 dependencies = [
     "gitdb (==4.0.12)",
     "gitpython (==3.1.45)",
@@ -20,7 +21,8 @@ dependencies = [
     "smmap (==5.0.2)",
     "sqlparse (==0.5.4)",
     "tzdata (==2025.2)",
-    "pexpect (>=4.9.0,<5.0.0)"
+    "pexpect (>=4.9.0,<5.0.0)",
+    "tinydb (>=4.8.2,<5.0.0)"
 ]
 
 [tool.poetry]
