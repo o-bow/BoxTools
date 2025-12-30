@@ -141,7 +141,7 @@ def get_box_root_path() -> PurePath:
         if path.name is None:
             raise ParseException('Box path can\'t be determined: your box implementation project MUST contain an src folder at root level')
     # root > src
-    return path.joinpath('../..')
+    return path.joinpath('..')
 
 
 def get_box_path() -> PurePath:
