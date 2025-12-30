@@ -7,7 +7,7 @@ from boxtools.Logs import LogDisplay
 from boxtools.exception.Exceptions import ParseException
 from boxtools.data.util.Settings import Settings
 from boxtools.env.environment import validate_tool
-from boxtools.file.fileAccess import get_box_config_ini_file_path
+from boxtools.data.access.fileAccess import get_box_config_ini_file_path
 from boxtools.data.util.stringUtils import new_line
 
 
