@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
+
 from pathlib import PurePath
 from subprocess import CompletedProcess
 
-from boxtools.Color import ShellColor as Color
+from boxtools.data.Color import ShellColor as Color
 import collections.abc
 
-from boxtools.dto.Exceptions import ParseException
-from boxtools.dto.Settings import Settings
-from boxtools.fileAccess import get_box_config_ini_file_path
-from boxtools.stringUtils import new_line
+from boxtools.exception.Exceptions import ParseException
+from boxtools.data.util.Settings import Settings
+from boxtools.data.access.fileAccess import get_box_config_ini_file_path
+from boxtools.data.util.stringUtils import new_line
 
 
 class LogLevel:
@@ -20,7 +21,11 @@ class LogLevel:
 class LogDisplay:
     def __init__(self, app_log_level: int = LogLevel.SILENT, box_file_path: PurePath = None):
         self.app_log_level = app_log_level
-        self.box_file_path = box_file_path
+        if box_file_path is not None:
+            self.box_file_path = box_file_path
+        else:
+            from boxtools.data.access.fileAccess import get_box_path
+            self.box_file_path = get_box_path()
 
     def show_log(self, value, log_level: int = LogLevel.SILENT):
         if log_level <= self.app_log_level:
@@ -127,7 +132,7 @@ class LogDisplay:
     def get_log_display(self, app_ini_file: str = 'app.ini'):
         if self.box_file_path is None:
             return LogDisplay(LogLevel.SILENT)
-        app_settings: Settings = Settings(get_box_config_ini_file_path(app_ini_file, self.box_file_path))
+        app_settings: Settings = Settings(get_box_config_ini_file_path(app_ini_file))
         try:
             return LogDisplay(app_settings.get_int_setting('SETTINGS', 'LOG_LEVEL'))
         except ParseException:

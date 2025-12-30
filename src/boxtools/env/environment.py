@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import platform
 import posixpath
@@ -7,6 +9,9 @@ from pathlib import PurePath
 
 from boxtools.Logs import LogDisplay
 
+"""
+A set of environment related utility functions
+"""
 
 def is_windows():
     return platform.system().lower() == 'windows'

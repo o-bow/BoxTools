@@ -45,23 +45,22 @@ class ShellColor:
     END = '\033[0m'
     NC = '\x1b[0m'  # No Color
 
-    #Mise en forme du texte dans le terminal
-    #0 texte normal, sans style particulier ni couleur
-    #1 gras, brillant
-    #2 de faible intensité
-    #4 souligné
-    #5 clignotant (ne fonctionne pas sur tous les terminaux)
-    #7 échanger les couleurs du texte et de l’arrière-plan
-    #8 caché
-    #39 couleur par défaut du texte
-    #49 couleur par défaut de l’arrière-plan
-    #30–37 et 90–97 des couleurs simples pour le texte
-    #40–47 et 100–107 des couleurs simples pour l’arrière-plan
-    #38 ;5 ;0–255 256 couleurs possibles pour le texte
-    #48 ;5 ;0–255 256 couleurs possibles pour l’arrière-plan
-    #38 ;2 ;0–255 ;0–255 ;0–255 couleurs pour le texte en RGB (Red Green Blue)
-    #48 ;2 ;0–255 ;0–255 ;0–255 couleurs pour l’arrière-plan en RGB
-
+    #Text formatting in the terminal
+    #0 normal text, no special style or color
+    #1 bold, bright
+    #2 low intensity
+    #4 underlined
+    #5 blinking (does not work on all terminals)
+    #7 swap the text and background colors
+    #8 hidden
+    #39 default text color
+    #49 default background color
+    #30–37 and 90–97 simple colors for text
+    #40–47 and 100–107 simple colors for background
+    #38;5;0–255 256 possible colors for text
+    #48;5;0–255 256 possible colors for background
+    #38;2;0–255;0–255;0–255 RGB colors for text (Red Green Blue)
+    #48;2;0–255;0–255;0–255 RGB colors for background
 
 
 class ANSICompatible:
@@ -144,22 +143,3 @@ class Color:
     B_LightMagenta = "\x1b[105m"
     B_LightCyan = "\x1b[106m"
     B_White = "\x1b[107m"
-
-
-# Sample
-
-#if __name__ == '__main__':
-#    print("Base:")
-#    print(Base.FAIL,"This is a test!", Base.END)
-#
-#    print("ANSI_Compatible:")
-#    print(ANSI_Compatible.Color(120),"This is a test!", ANSI_Compatible.END)
-#
-#    print("Formatting:")
-#    print(Formatting.Bold,"This is a test!", Formatting.Reset)
-#
-#    print("GColor:") # Gnome terminal supported
-#    print(GColor.RGB(204,100,145),"This is a test!", GColor.END)
-#
-#    print("Color:")
-#    print(Color.F_Cyan,"This is a test!",Color.F_Default)

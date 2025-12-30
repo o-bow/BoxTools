@@ -4,9 +4,9 @@ import configparser
 from pathlib import PurePath
 from typing import Any
 
-from boxtools.dto.Exceptions import ParseException
+from boxtools.exception.Exceptions import ParseException
 
-from boxtools.dto.ConfigurationChangeDto import ConfigurationChangeDto
+from boxtools.data.dto.ConfigurationChangeDto import ConfigurationChangeDto
 
 
 def get_properties(conf_file_path: PurePath) -> configparser.ConfigParser:

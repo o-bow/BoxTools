@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 class MapConverter:
     def __init__(self):
         self.idx = 0

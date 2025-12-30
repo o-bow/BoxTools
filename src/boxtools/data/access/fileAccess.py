@@ -4,12 +4,12 @@ import os
 from pathlib import PurePath, Path
 from typing import Pattern, Match
 
-from boxtools.dto.Exceptions import ParseException
-from boxtools.parser.iniParser import set_properties
+from boxtools.exception.Exceptions import ParseException
+from boxtools.data.parser.iniParser import set_properties
 
 
 def delete_dir_content(path):
-    from boxtools.environment import get_path_separator
+    from boxtools.env.environment import get_path_separator
     files = glob.glob(path + get_path_separator() + '*')
     for f in files:
         os.remove(f)
@@ -93,12 +93,12 @@ def get_file_as_str(file_path: PurePath):
     return content
 
 
-def get_file_as_list(file_path: PurePath):
+def get_file_as_list(file_path: PurePath, do_strip: bool = True):
     lines = []
     try:
         with open(file_path, 'r') as file:
             for line in file:
-                lines.append(line.strip())
+                lines.append(line.strip() if do_strip else line)
     except TypeError as te:
         raise ParseException('get_file_as_list: Failed to read content at file path ' + str(file_path)) from te
     return lines
@@ -134,26 +134,36 @@ def create_if_not_exists(file_path: PurePath):
         open(file_path, 'w').close()
 
 
-def get_python_box_path() -> PurePath:
-    # file > module > src > root - index start at 0
-    return Path(__file__).parents[1].absolute()
+def get_box_root_path() -> PurePath:
+    path: PurePath = PurePath(get_caller_path())
+    while path.name != 'src':
+        path = path.parent
+        if path.name is None:
+            raise ParseException('Box path can\'t be determined: your box implementation project MUST contain an src folder at root level')
+    # root > src
+    return path.joinpath('../..')
 
 
 def get_box_path() -> PurePath:
+    # file > module > src > root (boxname) > calling script
+    return PurePath(get_caller_path()).parent
+
+
+def get_python_box_path() -> PurePath:
     # file > module > src > root - index start at 0
-    return Path(__file__).parents[2].absolute()
+    return get_box_path().joinpath('pythonBox')
 
 
 def get_legacy_box_path() -> PurePath:
     return get_box_path().joinpath('zshBox')
 
 
-def get_box_config_ini_file_path(file_name: str, box_path: PurePath) -> PurePath:
-    return box_path.joinpath('resources', 'config', file_name)
+def get_box_config_ini_file_path(file_name: str) -> PurePath:
+    return get_python_box_path().joinpath('resources', 'config', file_name)
 
 
-def write_configuration(conf_file_name, config, box_path: PurePath):
-    set_properties(get_box_config_ini_file_path(file_name=conf_file_name, box_path=box_path), config)
+def write_configuration(conf_file_name, config):
+    set_properties(get_box_config_ini_file_path(file_name=conf_file_name), config)
 
 
 def get_zshrc_path() -> PurePath:

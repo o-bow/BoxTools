@@ -2,12 +2,16 @@
 
 import os
 
-from boxtools.Color import ShellColor as Color
+from boxtools.data.Color import ShellColor as Color
 from boxtools.Logs import LogLevel, LogDisplay
-from boxtools.environment import is_windows
+from boxtools.env.environment import is_windows
 
 log_display: LogDisplay = LogDisplay().get_log_display()
 
+"""
+Mostly shorcuts for common logging functions
+Those shortcut functions are deprecated and are planned to be removed at some point
+"""
 
 def get_key(dic, val):
     for key, value in dic.items():

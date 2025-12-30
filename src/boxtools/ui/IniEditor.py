@@ -3,9 +3,8 @@
 import tkinter as tk
 from abc import abstractmethod
 
-from boxtools.dto.Exceptions import ParseException
+from boxtools.exception.Exceptions import ParseException
 from boxtools.ui.UiTools import *
-from boxtools.dto.FieldDto import FieldDto
 from boxtools.ui.VerticalScrollableFrame import VerticalScrollableFrame
 
 

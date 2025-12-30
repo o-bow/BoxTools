@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from typing import Type
-
 
 class LibException(Exception):
     """Base class for exceptions in this module."""

@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 from configparser import ConfigParser
 from pathlib import PurePath
 
-from boxtools.dto.ConfigurationChangeDto import ConfigurationChangeDto
-from boxtools.parser import iniParser
+from boxtools.data.dto.ConfigurationChangeDto import ConfigurationChangeDto
+from boxtools.data.parser import iniParser
 
 
 class Settings:

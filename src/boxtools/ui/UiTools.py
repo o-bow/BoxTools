@@ -4,9 +4,9 @@ from tkinter import *
 from tkinter import ttk
 from typing import List
 
-from boxtools.Color import ShellColor
-from boxtools.dto.FieldDto import FieldDto
+from boxtools.data.Color import ShellColor
 from boxtools.Logs import LogDisplay
+from boxtools.data.dto.FieldDto import FieldDto
 
 
 class GridLayout:

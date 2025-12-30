@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
+
 from pathlib import PurePath
 
-import boxtools.environment
+import boxtools.env.environment
 from boxtools.Logs import LogDisplay
-from boxtools.dto.Exceptions import ParseException
-from boxtools.dto.Settings import Settings
-from boxtools.environment import validate_tool
-from boxtools.fileAccess import get_box_config_ini_file_path
+from boxtools.exception.Exceptions import ParseException
+from boxtools.data.util.Settings import Settings
+from boxtools.env.environment import validate_tool
+from boxtools.file.fileAccess import get_box_config_ini_file_path
+from boxtools.data.util.stringUtils import new_line
 
 
 def update_file(file_path, replace_map, if_not_exist: bool = False, is_append: bool = False):
@@ -20,7 +22,7 @@ def update_file(file_path, replace_map, if_not_exist: bool = False, is_append: b
                 is_replace_line = str(k).endswith('.*') & line.startswith(k[0:len(k) - 2])
                 if is_replace_line:
                     # Update the desired line(s)
-                    list_of_lines[line_number] = v + boxtools.environment.get_line_break()
+                    list_of_lines[line_number] = v + boxtools.env.environment.get_line_break()
                 elif k in line and ((if_not_exist and v not in line) or not if_not_exist):
                     new_str = v if not is_append else (k + v)
                     list_of_lines[line_number] = list_of_lines[line_number].replace(k, new_str)
@@ -78,6 +80,91 @@ def update_line(file_path, line_number, value):
     list_of_lines[line_number] = value + "\n"
     replace_in_file(file_path, list_of_lines)
 
+def add_line(file_path, line_number, value, no_duplicate: bool = False):
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    if no_duplicate and value in list_of_lines[line_number]:
+        return
+    list_of_lines.insert(line_number, value + new_line())
+    replace_in_file(file_path, list_of_lines)
+
+def add_line_before_text(file_path, matched_text: str, value: str, no_duplicate: bool = False):
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    line_numbers: list[int] = _find_text_in_lines(lines=list_of_lines, text=matched_text)
+    for line_number in line_numbers:
+        line: str = list_of_lines[line_number]
+        if no_duplicate and value in list_of_lines[line_number-1]:
+            return
+        list_of_lines.insert(line_number, value + new_line())
+    replace_in_file(file_path, list_of_lines)
+
+
+def append_to_line(file_path, line_number, value, no_duplicate: bool = False):
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    line: str = list_of_lines[line_number]
+    if no_duplicate and line.endswith(value):
+        return
+    list_of_lines[line_number] += value
+    replace_in_file(file_path, list_of_lines)
+
+
+def prepend_to_lines(file_path, line_numbers: list[int], value: str, no_duplicate: bool = False):
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    for line_number in line_numbers:
+        line: str = list_of_lines[line_number]
+        if not no_duplicate or not line.startswith(value):
+            list_of_lines[line_number] = value + line
+    replace_in_file(file_path, list_of_lines)
+
+
+def prepend_to_line_by_text(file_path, matched_text: str, value, no_duplicate: bool = False, match_cnt: int = -1):
+    """
+
+    :param file_path:
+    :param matched_text:
+    :param value:
+    :param no_duplicate:
+    :param match_cnt: if set and > 0, will only process the match with cnt = match_cnt
+    :return:
+    """
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    line_numbers: list[int] = _find_text_in_lines(lines=list_of_lines, text=matched_text, stop_on_first=(match_cnt ==-1))
+    cnt: int = 0
+    for line_number in line_numbers:
+        cnt += 1
+        if match_cnt > 0 and cnt != match_cnt:
+            print('skipping...', cnt, len(line_numbers))
+            continue
+        if no_duplicate and list_of_lines[line_number].startswith(value):
+            return
+        list_of_lines[line_number] = value + list_of_lines[line_number]
+    replace_in_file(file_path, list_of_lines)
+
+
+def _find_text_in_lines(lines: list[str], text: str, stop_on_first: bool = True) -> list[int]:
+    matches: list[int] = []
+    line_index = 0
+    for line in lines:
+        if text in line:
+            matches.append(line_index)
+            if stop_on_first:
+                break
+        line_index += 1
+    return matches
+
+
+def find_lines_by_text(file_path, text: str, stop_on_first: bool = False) -> list[int]:
+    file_content = open(file_path, "r")
+    list_of_lines = file_content.readlines()
+    return _find_text_in_lines(lines=list_of_lines,
+                               text=text,
+                               stop_on_first=stop_on_first)
+
+
 def add_lines(file_path: str, nb_lines: int, text: str):
     with open(file_path) as infile:
         lines = infile.readlines()
@@ -113,7 +200,7 @@ def dt2s(path_to_convert: str, box_path: PurePath, user_ini_file: str = 'user.in
     validate_tool('sponge')
     extensions: list = ['*.java']
     try:
-        user_settings: Settings | None = Settings(get_box_config_ini_file_path(file_name=user_ini_file, box_path=box_path))
+        user_settings: Settings | None = Settings(get_box_config_ini_file_path(file_name=user_ini_file))
         if user_settings is None:
             print(f'Invalid user ini file: [{user_ini_file}]. Defaulting to *.java extension only')
         else:

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 class FieldDto:
     def __init__(self, label, value, settings_instance=None, property_section=None, property_name=None,

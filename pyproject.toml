@@ -3,7 +3,7 @@ name = "boxtools"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "I314837",email = "olivier.bourlon@sap.com"}
+    {name = "obow",email = "olivier.bourlon.pro@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.13"
@@ -19,7 +19,8 @@ dependencies = [
     "six (==1.17.0)",
     "smmap (==5.0.2)",
     "sqlparse (==0.5.4)",
-    "tzdata (==2025.2)"
+    "tzdata (==2025.2)",
+    "pexpect (>=4.9.0,<5.0.0)"
 ]
 
 [tool.poetry]

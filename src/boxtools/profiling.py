@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import time
 
 start = time.time()
@@ -12,7 +13,7 @@ atexit.register(profile.print_stats)
 
 @profile
 def profiled_function():
-    from boxtools.dto.Exceptions import ParseException
+    pass
 
     #from module.core.Error import GitException, CoreException, UnreachableException
     #from module.core.cdtFileAccess import get_resources_path, get_box_lib_path

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
+
 import pandas as pd
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+
+"""
+Date utility functions
+"""
 
 
 def month_range(start_date, duration_in_months):

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+
 from configparser import ConfigParser
 
 from boxtools.Logs import LogDisplay
 
-
+"""
+Class to display documentation out of configuration files (ini)
+"""
 class Doc:
     def __init__(self):
         self.logger: LogDisplay = LogDisplay().get_log_display()

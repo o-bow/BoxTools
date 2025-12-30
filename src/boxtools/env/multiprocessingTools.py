@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from multiprocessing import Pool
 from time import sleep
 from boxtools.Logs import LogDisplay

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+
 from collections.abc import Sequence
 
 from boxtools.Logs import LogDisplay
-from boxtools.stringUtils import new_line
+from boxtools.data.util.stringUtils import new_line
 
 
 class HelpEntry:

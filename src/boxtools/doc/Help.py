@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+
 from boxtools.Logs import LogDisplay, LogLevel
-from boxtools.dto.HelpEntry import HelpEntry
-from boxtools.stringUtils import new_line
+from boxtools.data.dto.HelpEntry import HelpEntry
+from boxtools.data.util.stringUtils import new_line
 
 
 class Help:

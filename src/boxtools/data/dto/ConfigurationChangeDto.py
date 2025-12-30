@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 from pathlib import PurePath
 
-from boxtools.dto.PropertyDto import PropertyDto
+from boxtools.data.dto.PropertyDto import PropertyDto
 
 
 class ConfigurationChangeDto:

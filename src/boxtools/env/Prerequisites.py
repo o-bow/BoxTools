@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from boxtools.fileAccess import get_file_as_list, get_python_box_path
+
+from boxtools.data.access.fileAccess import get_file_as_list, get_python_box_path
 
 
 class Prerequisites:
@@ -52,7 +53,7 @@ class Prerequisites:
             else:
                 log.show_critical_log(f' - Missing Python library: {lib}')
                 if suggest_install:
-                    from boxtools.input import ask_for_choice
+                    from boxtools.data.input import ask_for_choice
                     choice: str = ask_for_choice('Do you want to install this library? (Uses pip)', ['Yes', 'No'])
                     if choice is not None and choice.lower() == 'y' or choice.lower() == 'yes':
                         from os import system
