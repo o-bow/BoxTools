@@ -43,6 +43,7 @@ def glob_partial_name_ind(part: str, path):
 
 
 def insert_before_eof(file_path: str, lines_from_bottom: int, lines_to_insert: list):
+    create_if_not_exists(PurePath(file_path))
     # Insert text n lines before the end of file
     try:
         with open(file_path) as file:
@@ -54,7 +55,7 @@ def insert_before_eof(file_path: str, lines_from_bottom: int, lines_to_insert: l
                 idx += 1
         with open(file_path, 'w') as new_file:
             for line in lines:
-                new_file.write(line)
+                new_file.write(line + ('\n' if not line.endswith('\n') else ''))
     except TypeError as te:
         raise ParseException('insert_before_eof: Failed to  read content at file path ' + str(file_path)) from te
 

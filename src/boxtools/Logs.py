@@ -8,7 +8,7 @@ import collections.abc
 
 from boxtools.exception.Exceptions import ParseException
 from boxtools.data.util.Settings import Settings
-from boxtools.data.access.fileAccess import get_box_config_ini_file_path
+from boxtools.data.access.fileAccess import get_box_config_ini_file_path, write_to_file
 from boxtools.data.util.stringUtils import new_line
 
 
@@ -35,7 +35,11 @@ class LogDisplay:
         separator = ' | '
         if log_level <= self.app_log_level:
             from os import get_terminal_size
-            t_size = get_terminal_size().columns
+            try:
+                t_size = get_terminal_size().columns
+            except OSError as oe:
+                self.show_debug_color_log(f'show_array - Error (using 200 as default value) :: \n{oe}')
+                t_size = 200
             # calculate min-widths on all columns
             column_widths: list[int] = []
             for idx, row in enumerate(value):
@@ -138,3 +142,40 @@ class LogDisplay:
         except ParseException:
             print('Invalid log level in app.ini. Defaulting to SILENT.')
             return LogDisplay(LogLevel.SILENT)
+
+
+def print_str_array(str_lst: list[str] = None, a_str_lst: list[list[str]] = None, file_path: str = None,
+                    logger: LogDisplay = None):
+    if str_lst is None:
+        str_lst = []
+    if a_str_lst is None:
+        a_str_lst = [[]]
+    if file_path is not None:
+        concat_lst: list[str] = []
+        col_size: int = 15
+        if len(a_str_lst) > 0:
+            for i in range(len(a_str_lst)):
+                separator: str = ' | '
+                nb_col: int = len(a_str_lst[i])
+                separator_spaces: int = (nb_col - 1) * len(separator)
+                if i == 1:
+                    concat_lst.append('-' * (col_size * nb_col + separator_spaces) + '\n')
+                concat_lst.append(separator.join([f"{y:{_get_padding(col_size, x, i)}}" for x, y in enumerate(a_str_lst[i])]))
+        f_output = str_lst + concat_lst
+        for i in range(len(f_output)):
+            if not f_output[i].endswith('\n'):
+                f_output[i] += '\n'
+        write_to_file(file_path=file_path,
+                      content=f_output)
+
+    if logger is not None:
+        for line in str_lst:
+            logger.show_log(line)
+        logger.show_array(a_str_lst)
+
+
+def _get_padding(col_size: int, column_id: int, line_id: int) -> str:
+    return f'^{col_size}' if line_id == 0 else (f'{col_size}' if column_id == 0 else f'>{col_size}')
+
+def object_to_2d_list(obj) -> list[list[str]]:
+    return [[k, str(v)] for k, v in vars(obj).items()]

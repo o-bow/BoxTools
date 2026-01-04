@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from boxtools.Logs import LogDisplay
+from boxtools.common import show_info_input_feedback_log
+from boxtools.exception.Exceptions import ParseException
 
 
 def ask_for_value(value_name: str, desc: str = None, log: LogDisplay=None):
@@ -34,3 +36,41 @@ def ask_for_choice(text, choices_array, log: LogDisplay=None):
             return choices_array[idx]
     log.show_debug_log('  - choice not found')
     return None
+
+
+def make_afc_id(idx: int) -> str:
+    if not (0 <= idx <= 35):
+        raise ValueError(f"Integer {idx} cannot be converted to a single character")
+
+    if idx <= 9:
+        return str(idx)
+    else:
+        # 10 -> 'a', 11 -> 'b', ..., 35 -> 'z'
+        return chr(ord('a') + idx - 10)
+
+
+def ask_for_yes_no(message_name) -> bool:
+    """
+    return True if input is yes
+    """
+    value = input(message_name + ' ( y / n ): ')
+    if len(value) > 1:
+        value = value[0:1]
+    if value.lower() != 'y':
+        value = 'n'
+    show_info_input_feedback_log(' -> Your evaluated input : {1}', value)
+    return value.lower() == 'y'
+
+def ask_for_float(value_name) -> float:
+    x = ask_for_value(value_name)
+    try:
+        return float(x)
+    except ValueError:
+        raise ParseException(f'{x} is not a float. Aborting')
+
+def ask_for_int(value_name) -> int:
+    x = ask_for_value(value_name)
+    try:
+        return int(x)
+    except ValueError:
+        raise ParseException(f'{x} is not a float. Aborting')
