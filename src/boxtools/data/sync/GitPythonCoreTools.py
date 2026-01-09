@@ -34,7 +34,7 @@ class GitPythonCoreTools:
 
     def revert_file(self, git_file_path, branch_name):
         origin = self.get_git_origin()
-        cli = self.get_git_repo(origin)
+        cli = self.get_git_repo()
         self.LOGGER.show_command_log('git checkout ' + origin.name + '/' + branch_name + ' -- ' + git_file_path)
         cli.checkout(origin.name + '/' + branch_name, git_file_path)
 
