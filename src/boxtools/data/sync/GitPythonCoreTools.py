@@ -145,6 +145,13 @@ class GitService(GitPythonCoreTools):
             self.apply_configuration()
             self.logger.debug(' ••• Update finished')
 
+    def get_revert_source_branch(self, git_object, default_branch='develop'):
+        current_branch: str = self.get_current_branch(git_object=git_object)
+        if self.is_branch_on_remote(git_object=git_object):
+            return current_branch
+        else:
+            return default_branch
+
 
     def handle_git_error(self, error, git_log=None):
         self.logger.info(' ')
