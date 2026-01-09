@@ -62,9 +62,13 @@ class GitPythonCoreTools:
     def is_branch_on_remote(self, git_object, origin_name: str = 'origin', branch_name: str = None):
         if branch_name is None:
             branch_name = self.get_current_branch(git_object)
-        self.LOGGER.show_command_log('git ls-remote --heads ' + origin_name + ' ' + branch_name)
-        result = git_object.execute(['git', 'ls-remote', '--heads', origin_name, branch_name])
-        return len(result.strip()) > 0
+        self.LOGGER.show_command_log(f'git fetch {origin_name}')
+        git_object.execute(['git', 'fetch', origin_name])
+        self.LOGGER.show_command_log('git branch -r')
+        branches = git_object.execute(['git', 'branch', '-r']).splitlines()
+        remote_branch = f'{origin_name}/{branch_name}'
+        return any(remote_branch == b.strip() for b in branches)
+
 
     def git_switch_for_path(self, project_path, origin_name, branch_name, cleanup=False):
         git_object = cmd.Git(project_path)
