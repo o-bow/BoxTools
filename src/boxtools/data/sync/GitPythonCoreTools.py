@@ -59,7 +59,7 @@ class GitPythonCoreTools:
         self.LOGGER.show_command_log('git rev-parse --abbrev-ref HEAD')
         return git_object.execute(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).strip()
 
-    def is_branch_on_remote(self, git_object, origin_name: str, branch_name: str = None):
+    def is_branch_on_remote(self, git_object, origin_name: str = 'origin', branch_name: str = None):
         if branch_name is None:
             branch_name = self.get_current_branch(git_object)
         self.LOGGER.show_command_log('git ls-remote --heads ' + origin_name + ' ' + branch_name)
@@ -145,9 +145,9 @@ class GitService(GitPythonCoreTools):
             self.apply_configuration()
             self.logger.debug(' ••• Update finished')
 
-    def get_revert_source_branch(self, git_object, default_branch='develop'):
+    def get_revert_source_branch(self, git_object, origin_name: str = 'origin', default_branch='develop'):
         current_branch: str = self.get_current_branch(git_object=git_object)
-        if self.is_branch_on_remote(git_object=git_object):
+        if self.is_branch_on_remote(git_object=git_object, origin_name=origin_name, branch_name=current_branch):
             return current_branch
         else:
             return default_branch
