@@ -55,6 +55,9 @@ class GitPythonCoreTools:
             self.LOGGER.show_command_log('git clean -f -d')
             git_object.execute(['git', 'clean', '-f', '-d'])
 
+    def get_current_branch(self, git_object):
+        self.LOGGER.show_command_log('git rev-parse --abbrev-ref HEAD')
+        return git_object.execute(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).strip()
 
     def git_switch_for_path(self, project_path, origin_name, branch_name, cleanup=False):
         git_object = cmd.Git(project_path)
