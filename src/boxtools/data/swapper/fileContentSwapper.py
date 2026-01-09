@@ -29,6 +29,14 @@ def update_file(file_path, replace_map, if_not_exist: bool = False, is_append: b
     # Write it out
     replace_in_file(file_path, list_of_lines)
 
+def remove_lines_by_content(file_path: str, texts: list[str]):
+    with open(file_path, "r") as f:
+        lines = f.readlines()
+    with open(file_path, "w") as f:
+        for line in lines:
+            if not any(text in line for text in texts):
+                f.write(line)
+
 
 def add_to_file(file_path: str, list_of_lines):
     file_content = open(file_path, "a")
