@@ -26,7 +26,7 @@ class GitPythonCoreTools:
         try:
             repo = Repo(cdt_path)
             return repo.remote()
-        except exc.NoSuchPathError as nspe:
+        except exc.NoSuchPathError as _:
             print('Currently defined path "{0}" does not exist. Please run `cdt setup` and configure it. Do not mind this '
                   'message if setup operation is ongoing.'.format(cdt_path))
             return None
@@ -121,7 +121,7 @@ class GitService(GitPythonCoreTools):
         project_root_folder = str(self.project_root_folder)
         origin_name = self.get_git_origin().name
         git_log = ''
-        g = self.get_git_object(project_root_folder)
+        g = self.get_git_object(path=project_root_folder)
         # 1 - git checkout (rollback custom configuration)
         self.rollback_local_conf(g)
 
@@ -177,7 +177,7 @@ class GitService(GitPythonCoreTools):
 
         project_root_folder = str(self.project_root_folder)
         origin_name = self.get_git_origin().name
-        g = self.get_git_object(project_root_folder)
+        g = self.get_git_object(path=project_root_folder)
 
         if self.do_git_backups:
             self.logger.debug(' - executing git checkout (backup)')
@@ -205,7 +205,7 @@ class GitService(GitPythonCoreTools):
 
     def git_upgrade_process(self):
         project_root_folder = str(self.project_root_folder)
-        g = self.get_git_object(project_root_folder)
+        g = self.get_git_object(path=project_root_folder)
         try:
             self.git_update_refs(g)
         except GitCommandError as e:
@@ -214,7 +214,7 @@ class GitService(GitPythonCoreTools):
 
 
     def git_branch_search(self, branch_name, query):
-        g = self.get_git_object(str(self.project_root_folder))
+        g = self.get_git_object(path=str(self.project_root_folder))
         git_log = ''
         try:
             git_log = self.git_log_for_query(g, branch_name, query)
@@ -226,7 +226,7 @@ class GitService(GitPythonCoreTools):
 
     def git_diff(self, source_branch_name: str, target_branch_name: str):
         project_root_folder = str(self.project_root_folder)
-        g = self.get_git_object(project_root_folder)
+        g = self.get_git_object(path=project_root_folder)
         try:
             self.git_fetch_all()
             git_log = self.git_compare(g, source_branch_name, target_branch_name)
