@@ -49,8 +49,9 @@ class GitPythonCoreTools:
             remote.fetch()
 
     def git_switch(self, git_object, origin_name, branch_name, cleanup=False):
-        self.LOGGER.show_command_log('git switch -f -C ' + branch_name + ' ' + origin_name + '/' + branch_name)
-        git_object.execute(['git', 'switch', '-f', '-C', branch_name, origin_name + '/' + branch_name])
+        git_cmd: list[str] = ['git', 'switch', '-f', branch_name, f'{origin_name}/{branch_name}']
+        self.LOGGER.show_command_log(" ".join(git_cmd))
+        git_object.execute(git_cmd)
         if cleanup:
             self.LOGGER.show_command_log('git clean -f -d')
             git_object.execute(['git', 'clean', '-f', '-d'])
