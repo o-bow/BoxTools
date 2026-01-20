@@ -45,3 +45,9 @@ class Settings:
 
     def get_section(self, property_group: str):
         return self.get_settings()[property_group]
+
+    def get_section_map(self, property_group: str):
+        return self.get_section(property_group).items()
+
+    def get_section_keys(self, property_group: str):
+        return self.get_section(property_group).keys()
