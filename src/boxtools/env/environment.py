@@ -112,8 +112,6 @@ def validate_tool(name):
         import sys
         sys.exit(1)
 
-
-
 def has_alias(alias_name: str, src_file: str = ".zshrc") -> bool | None:
     """
     :return: True if it's found, False if not found, None if src_file (default .zshrc) does not exist
