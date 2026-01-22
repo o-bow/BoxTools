@@ -111,3 +111,20 @@ def validate_tool(name):
         logger.show_log(' -> Aborted: ' + name + ' tool not found')
         import sys
         sys.exit(1)
+
+
+
+def has_alias(alias_name: str, src_file: str = ".zshrc") -> bool | None:
+    """
+    :return: True if it's found, False if not found, None if src_file (default .zshrc) does not exist
+    """
+    from pathlib import Path
+    zshrc_path = Path.home() / src_file
+    if zshrc_path.exists():
+        with open(zshrc_path, 'r') as f:
+            content = f.read()
+        if f"alias {alias_name}=" in content:
+            return True
+        else:
+            return False
+    return None
