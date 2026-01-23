@@ -144,6 +144,24 @@ class LogDisplay:
             return LogDisplay(LogLevel.SILENT)
 
 
+def i_info_msg(message: str):
+    return f'ℹ️ {message}'
+
+def i_error_msg(message: str):
+    return f'❌️ {message}'
+
+def i_warn_msg(message: str):
+    return f'⚠️ {message}'
+
+def i_success_msg(message: str):
+    return f'✅ {message}'
+
+def i_loading_msg(message: str):
+    return f'⏳️ {message}'
+
+def i_gear_msg(message: str):
+    return f'⚙️️ {message}'
+
 def print_str_array(str_lst: list[str] = None, a_str_lst: list[list[str]] = None, file_path: str = None,
                     logger: LogDisplay = None):
     if str_lst is None:
