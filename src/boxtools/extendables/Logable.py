@@ -22,7 +22,9 @@ class Logable:
             else:
                 append_to_file(self.log_file_path, content)
 
-    def log_error(self, error, method_name: str, error_type: str = None, log_file_path: str = None):
+    def log_error(self, error, method_name: str, error_type: str = None,
+                  log_file_path: str = None,
+                  show_details: bool = True):
         c_error_type: str = ' #{}'.format(error_type) if error_type is not None else ''
         if self.unit_test_mode:
             print('/!\\ Error on {}(){}: {}'.format(method_name, c_error_type, repr(error)))
@@ -30,8 +32,9 @@ class Logable:
         else:
             self.log(content='/!\\ Error on {}(){}: {}'.format(method_name, c_error_type, repr(error)),
                      log_file_path=log_file_path)
-            self.log(content='- Error details: {}'.format(traceback.format_exc()),
-                     log_file_path=log_file_path)
+            if show_details:
+                self.log(content='- Error details: {}'.format(traceback.format_exc()),
+                         log_file_path=log_file_path)
 
     def tlog(self, content: str, headers: list = None, log_file_path: str = None):
         f_content: str = '[{}'.format(get_hour_str(datetime.now()))
