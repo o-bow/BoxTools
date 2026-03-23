@@ -44,13 +44,14 @@ class OsxApp:
 
     # ---------- iTerm-specific convenience ----------
 
-    def open_iterm_tab(self, command: Optional[str] = None) -> None:
+    def open_iterm_tab(self, command: Optional[str] = None, force_tab: bool = False) -> None:
         """
         Open a new tab in iTerm/iTerm2 and optionally run a shell command.
 
         This method assumes this OsxApp instance represents iTerm or iTerm2
         (i.e., app_name is 'iTerm' or 'iTerm2').
 
+        :param force_tab: to force opening a tab even if no window is detected
         :param command: Shell command to execute in the new tab; if None, just opens a blank tab.
         :raises RuntimeError: if the app is not found.
         :raises subprocess.CalledProcessError: if osascript fails.
@@ -74,7 +75,7 @@ class OsxApp:
         script = textwrap.dedent(f"""
         tell application "{self.app_name}"
             activate
-            if (count of windows) is 0 then
+            if ((count of windows) is 0) and ({str(not force_tab).lower()}) then
                 set newWindow to (create window with default profile)
                 tell current session of newWindow
                     {command_line}
