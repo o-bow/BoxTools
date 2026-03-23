@@ -16,6 +16,10 @@ A set of environment related utility functions
 def is_windows():
     return platform.system().lower() == 'windows'
 
+def is_osx() -> bool:
+    import sys
+    return sys.platform == 'darwin'
+
 
 # 11.0.10 ...
 def get_java_full_version():
